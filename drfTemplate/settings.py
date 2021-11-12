@@ -351,7 +351,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": application_name.title(),
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "logo.png",
+    "site_logo": "img/logo.png",
 
     # CSS classes that are applied to the logo above
     "site_logo_classes": "img-circle",
@@ -384,7 +384,7 @@ JAZZMIN_SETTINGS = {
         # external url that opens in a new window (Permissions can be added)
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
-        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/', "new_window": True},
+        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/'},
         # App with dropdown menu to all its models pages (Permissions checked against models)
         {"app": "home"},
     ],
@@ -395,7 +395,7 @@ JAZZMIN_SETTINGS = {
 
     # # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/', "new_window": True,
+        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/',
          "icon": "fas fa-comments",},
         {"model": "auth.user"}
     ],
