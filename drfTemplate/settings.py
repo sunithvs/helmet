@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_filters',
     'admin_honeypot',
+    'request_viewer',
     'log_viewer',
     'auth_login',
     'authentication',
@@ -75,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'request_viewer.middleware.RequestViewerMiddleware',
 ]
 
 ROOT_URLCONF = 'drfTemplate.urls'
