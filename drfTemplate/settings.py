@@ -5,13 +5,13 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path='.env')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_SECRET')
 DEFAULT_CLIENT = os.environ.get('DEFAULT_CLIENT')
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+ADMIN_URL = os.environ.get('ADMIN_URL')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
@@ -281,10 +281,10 @@ LOGGING = {
             'backupCount': 0,
             'formatter': 'standard',
         },
-        'tasks': {
+        'auth': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_ROOT, 'tasks.log'),
+            'filename': os.path.join(LOGGING_ROOT, 'auth.log'),
             'maxBytes': 1024 * 1024 * 15,  # 5MB
             'backupCount': 0,
             'formatter': 'standard',
@@ -321,6 +321,11 @@ LOGGING = {
         },
         'home': {
             'handlers': ['console', 'home'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'auth': {
+            'handlers': ['console', 'auth'],
             'level': 'INFO',
             'propagate': False,
         },
@@ -374,16 +379,14 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
-        {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Dashboard",  "url": "admin:index", "permissions": ["auth.view_user"]},
 
         # external url that opens in a new window (Permissions can be added)
-        # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
-
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
-
+        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/', "new_window": True},
         # App with dropdown menu to all its models pages (Permissions checked against models)
-        # {"app": "books"},
+        {"app": "home"},
     ],
 
     #############
@@ -392,7 +395,7 @@ JAZZMIN_SETTINGS = {
 
     # # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "logs", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True,
+        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/', "new_window": True,
          "icon": "fas fa-comments",},
         {"model": "auth.user"}
     ],
