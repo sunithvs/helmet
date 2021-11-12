@@ -121,18 +121,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# jazzmin configurations https://jet.readthedocs.io/en/latest/getting_started.html
+
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": application_name,
 
     # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": application_name,
+    "site_header": 'Dashboard',
 
     # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
     "site_brand": application_name.title(),
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "books/img/logo.png",
+    "site_logo": "logo.png",
 
     # CSS classes that are applied to the logo above
     "site_logo_classes": "img-circle",
@@ -144,7 +146,7 @@ JAZZMIN_SETTINGS = {
     "welcome_sign": f"Welcome to {application_name.title()}",
 
     # Copyright on the footer
-    "copyright": f"all rights reserved to {application_name}",
+    # "copyright": f"all rights reserved to {application_name}",
 
     # The model admin to search from the search bar, search bar omitted if excluded
     "search_model": "auth.User",
@@ -163,7 +165,7 @@ JAZZMIN_SETTINGS = {
         {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
 
         # external url that opens in a new window (Permissions can be added)
-        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+        # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
 
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
@@ -176,9 +178,10 @@ JAZZMIN_SETTINGS = {
     # User Menu #
     #############
 
-    # Additional links to include in the user menu on the top right ("app" url type is not allowed)
+    # # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+        {"name": "logs", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True,
+         "icon": "fas fa-comments",},
         {"model": "auth.user"}
     ],
 
@@ -253,3 +256,6 @@ JAZZMIN_SETTINGS = {
     # "language_chooser": True,
 }
 
+JAZZMIN_UI_TWEAKS = {
+    "theme": "solar",
+}
