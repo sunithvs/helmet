@@ -49,10 +49,10 @@
 
     <div class="container font-sans mx-auto px-4 sm:px-8">
         <h3 class="text-2xl font-semibold leading-tight mb-3">log viewer </h3>
-        <div class="flex flex-col ">
+        <div class="flex flex-col">
             <div class="my-2 flex sm:flex-row flex-col">
                 <div class="block relative">
-                    <div class="relative">
+                    <div class="d-flex flex-row w-100 relative">
                         <select id="log-files-list"
                                 class="filter-method appearance-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
 
@@ -64,7 +64,16 @@
                                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
                             </svg>
                         </div>
+                         <div >
+                        <div class="inline-block min-w-full overflow-hidden">
+                            Live Monitoring Status :
+                            <span class="text-green-400"
+                                  data-toggle="tooltip" data-placement="top" title="Live monitoring is on">●</span>
+                            <br/>
+                        </div>
                     </div>
+                    </div>
+
                 </div>
             </div>
 
