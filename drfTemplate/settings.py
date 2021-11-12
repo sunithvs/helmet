@@ -249,7 +249,7 @@ SWAGGER_SETTINGS = {
 }
 
 
-LOG_VIEWER_FILES = ['v2.log', 'home.log', 'default.log','tasks.log', 'marketing']
+LOG_VIEWER_FILES = ['auth.log', 'home.log', 'default.log',]
 LOG_VIEWER_FILES_PATTERN = '*'
 LOG_VIEWER_FILES_DIR = os.path.join(BASE_DIR, 'logs')
 LOG_VIEWER_MAX_READ_LINES = 1000  # total log lines will be read
@@ -257,7 +257,7 @@ LOG_VIEWER_PAGE_LENGTH = 25  # total log lines per-page
 LOG_VIEWER_PATTERNS = ['[INFO]', '[DEBUG]', '[WARNING]', '[ERROR]', '[CRITICAL]']
 # Optionally you can set the next variables in order to customize the admin:
 
-LOG_VIEWER_FILE_LIST_TITLE = "Custom title"
+LOG_VIEWER_FILE_LIST_TITLE = "logging"
 LOG_VIEWER_FILE_LIST_STYLES = "/static/css/logs.css"
 LOGGING_ROOT = os.path.join(BASE_DIR, 'logs')
 LOGGING = {
@@ -384,7 +384,7 @@ JAZZMIN_SETTINGS = {
         # external url that opens in a new window (Permissions can be added)
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
-        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/'},
+        {"name": "logs", "url": 'log_viewer/'},
         # App with dropdown menu to all its models pages (Permissions checked against models)
         {"app": "home"},
     ],
@@ -395,7 +395,7 @@ JAZZMIN_SETTINGS = {
 
     # # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "logs", "url": DEPLOYMENT_URL+ADMIN_URL+'log_viewer/',
+        {"name": "logs", "url": 'log_viewer/',
          "icon": "fas fa-comments",},
         {"model": "auth.user"}
     ],
