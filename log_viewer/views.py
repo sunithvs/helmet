@@ -153,7 +153,7 @@ class LogViewerView(TemplateView):
     :cvar template_name: Name of the HTML template used to render the log files
 
     """
-    template_name = "log_viewer/logfile_viewer.html"
+    template_name = "../templates/log_viewer/logfile_viewer.html"
 
     def get_context_data(self, file_name=None, page=1, **kwargs):
         """
