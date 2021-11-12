@@ -17,7 +17,7 @@ from oauth2_provider.models import AccessToken, Application
 
 from authentication.models import Tokens
 
-logger = logging.getLogger('v2')
+logger = logging.getLogger('auth')
 
 
 def parse_url_next(next_loc):
@@ -117,24 +117,19 @@ def signup(request):
         else:
             if passwrd2 == password:
                 try:
-                    inv = request.POST.get('invite', '')
+                    logger.info("everything is okey creating user ")
                     user = User.objects.create_user(email=email, password=password, username=username,
                                                     first_name=username)
-                    token,_ = Tokens.objects.get_or_create(user=user)
-                    token.invite_token = inv
-                    token.save()
+                    logger.info(f"created user {user.username} ")
+                    token, _ = Tokens.objects.get_or_create(user=user)
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     redirect_location = request.GET.get('next', '/') + '?' + request.META['QUERY_STRING']
                     return HttpResponseRedirect(redirect_location)
 
                 except IntegrityError as e:
-                    print(e)
+                    logger.error(e)
                     logger.info('User already exist')
                     context1['pswderr'] = 'User already exists'
-                except Tokens.DoesNotExist as e:
-                    print(e)
-                    logger.info('Token was invalid')
-                    context1['pswderr'] = 'Invalid Token'
 
             else:
                 logger.info('Password Does not match')
@@ -142,7 +137,7 @@ def signup(request):
 
     next_loc = request.GET.get('next', '')
     context1['sign_text'] = "Register"
-    context1['invite'] = get_item_from_url(next_loc, 'invite')
+    # context1['invite'] = get_item_from_url(next_loc, 'invite')
     context1['redirect_uri'] = settings.DEPLOYMENT_URL + '/google-login'
     context1['GOOGLE_CLIENT_ID'] = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
     return render(request, template_name="signup.html", context=context1)
@@ -215,11 +210,8 @@ def Google_login(request):
             try:
 
                 token_of_user, _ = Tokens.objects.get_or_create(user=user)
-                if not token_of_user.invite_token:
-                    token_of_user.invite_token = invite_token
-                token_of_user.save()
-            except:
+            except Exception as e:
+                logger.error(e)
                 logger.exception('failed to create token')
-
         return HttpResponseRedirect(next_loc)
     return HttpResponseRedirect('/login/')
