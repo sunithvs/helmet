@@ -1,6 +1,6 @@
-
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path='.env')
@@ -21,7 +21,6 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email'
 }
-
 
 CELERY_TIMEZONE = "UTC"
 CELERY_TASK_TRACK_STARTED = True
@@ -106,7 +105,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'drfTemplate.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -139,7 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -152,7 +149,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -175,7 +171,7 @@ MEDIA_URL = '/media/'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-       'http://localhost:3000',
+    'http://localhost:3000',
 )
 LOGIN_URL = '/login/'
 
@@ -190,7 +186,6 @@ OAUTH2_PROVIDER = {
                'groups': 'Invite friends'},
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
 }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
@@ -238,7 +233,6 @@ AUTHENTICATION_BACKENDS = (
 
 )
 
-
 SWAGGER_SETTINGS = {
     'JSON_EDITOR': True,
     'SECURITY_DEFINITIONS': {
@@ -250,8 +244,7 @@ SWAGGER_SETTINGS = {
     }
 }
 
-
-LOG_VIEWER_FILES = ['auth.log', 'home.log', 'default.log',]
+LOG_VIEWER_FILES = ['auth.log', 'home.log', 'default.log', ]
 LOG_VIEWER_FILES_PATTERN = '*'
 LOG_VIEWER_FILES_DIR = os.path.join(BASE_DIR, 'logs')
 LOG_VIEWER_MAX_READ_LINES = 1000  # total log lines will be read
@@ -339,7 +332,6 @@ LOGGING = {
     }
 }
 
-
 # jazzmin configurations https://jet.readthedocs.io/en/latest/getting_started.html
 
 JAZZMIN_SETTINGS = {
@@ -381,7 +373,7 @@ JAZZMIN_SETTINGS = {
     "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
-        {"name": "Dashboard",  "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
 
         # external url that opens in a new window (Permissions can be added)
         # model admin to link to (Permissions checked against model)
@@ -399,9 +391,9 @@ JAZZMIN_SETTINGS = {
     # # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
         {"name": "logs", "url": f"/{ADMIN_URL}log_viewer/",
-         "icon": "fas fa-comments",},
+         "icon": "fas fa-comments", },
         {"name": "requests", "url": f"/{ADMIN_URL}request-viewer/",
-         "icon": "fas fa-comments",},
+         "icon": "fas fa-comments", },
         {"model": "auth.user"}
     ],
 
