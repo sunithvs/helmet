@@ -471,3 +471,8 @@ JAZZMIN_SETTINGS = {
 JAZZMIN_UI_TWEAKS = {
     "theme": "solar",
 }
+
+REQUEST_VIEWER = {
+  "LIVE_MONITORING": True,
+  "WHITELISTED_PATH": [ADMIN_URL]
+}
