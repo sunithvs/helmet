@@ -473,6 +473,6 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 REQUEST_VIEWER = {
-  "LIVE_MONITORING": True,
-  "WHITELISTED_PATH": [ADMIN_URL]
+    "LIVE_MONITORING": True,
+    "WHITELISTED_PATH": [ADMIN_URL, 'auth/', 'login/', 'google-login/', 'signup/']
 }
