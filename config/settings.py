@@ -78,7 +78,7 @@ MIDDLEWARE = [
     'request_viewer.middleware.RequestViewerMiddleware',
 ]
 
-ROOT_URLCONF = 'drfTemplate.urls'
+ROOT_URLCONF = 'config.urls'
 
 # you need to change this if you ar not using localhost and 8080 port
 
@@ -103,7 +103,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'drfTemplate.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
