@@ -8,7 +8,7 @@ if venv:
 else:
     system("python3 -m venv venv")
     time.sleep(2)
-    system("source venv/bin/activate")
+    system(". venv/bin/activate")
 
 system("pip install -r requirements.txt")
 
