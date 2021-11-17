@@ -11,11 +11,12 @@ else:
     system("source venv/bin/activate")
 
 system("pip install -r requirements.txt")
-system("python --version")
+
 env = open(".env", 'w+')
 env.write("DEBUG=True\n")
 
 while True:
+    print(f'{"*"*120}\n'*10)
     ADMIN_URL = input("enter the admin url").strip()
     if not ADMIN_URL:
         print("admin url can not be blank")
