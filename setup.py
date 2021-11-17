@@ -4,7 +4,7 @@ from os import system
 
 venv = glob.glob('*/bin/activate')
 if venv:
-    system(f"source {venv[0]}")
+    system(f". {venv[0]}")
 else:
     system("python3 -m venv venv")
     time.sleep(2)
