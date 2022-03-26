@@ -12,6 +12,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_SECRET')
 DEFAULT_CLIENT = os.environ.get('DEFAULT_CLIENT')
 
 ADMIN_URL = os.environ.get('ADMIN_URL')
+if not ADMIN_URL:
+    ADMIN_URL = "server/"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
     'https://www.googleapis.com/auth/userinfo.profile',
@@ -58,7 +60,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_filters',
     'admin_honeypot',
-    'request_viewer',
     'log_viewer',
     'auth_login',
     'authentication',
@@ -75,7 +76,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'request_viewer.middleware.RequestViewerMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -107,15 +107,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+# for production
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ.get('DB_NAME'),
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': 'localhost',
+#         'PORT': os.environ.get('DB_PORT'),
+#     }
+# }
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': os.environ.get('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
@@ -239,7 +247,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-
 
 SWAGGER_SETTINGS = {
     'JSON_EDITOR': True,
