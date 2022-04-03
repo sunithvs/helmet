@@ -7,23 +7,6 @@ load_dotenv(dotenv_path='.env')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_SECRET')
-DEFAULT_CLIENT = os.environ.get('DEFAULT_CLIENT')
-
-ADMIN_URL = os.environ.get('ADMIN_URL')
-if not ADMIN_URL:
-    ADMIN_URL = "server/"
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-]
-
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id, name, email'
-}
-
 CELERY_TIMEZONE = "UTC"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
@@ -39,7 +22,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-application_name = 'drf_template'
+application_name = 'helmet'
 
 # Application definition
 
@@ -51,33 +34,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
-    'rest_framework',
-    'oauth2_provider',
-    'social_django',
-    'oidc_provider',
-    'rest_framework_social_oauth2',
-    'drf_yasg',
-    'django_filters',
-    'admin_honeypot',
-    'log_viewer',
-    'auth_login',
-    'authentication',
     'home',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'oauth2_provider.middleware.OAuth2TokenMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 ROOT_URLCONF = 'config.urls'
 
 # you need to change this if you ar not using localhost and 8080 port
@@ -104,21 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-# for production
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.environ.get('DB_NAME'),
-#         'USER': os.environ.get('DB_USER'),
-#         'PASSWORD': os.environ.get('DB_PASSWORD'),
-#         'HOST': 'localhost',
-#         'PORT': os.environ.get('DB_PORT'),
-#     }
-# }
-
 
 DATABASES = {
     'default': {
@@ -184,171 +137,20 @@ CORS_ORIGIN_WHITELIST = (
 LOGIN_URL = '/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-OAUTH2_PROVIDER = {
-    "OIDC_ENABLED": True,
-    "OIDC_RSA_PRIVATE_KEY": os.environ.get("OIDC_RSA_PRIVATE_KEY"),
-    # this is the list of available scopes
-    'SCOPES': {"openid": "See Profile",
-               'read': 'Read Product Details',
-               'write': 'Add and Purchase Product',
-               'groups': 'Invite friends'},
-    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
-}
 
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100,
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-        'rest_framework_social_oauth2.authentication.SocialAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
-    ],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '30000/day',
-        'user': '20000/day',
-        'user_sec': '2/second',
-        'user_min': '30/minute',
-        'user_hour': '200/hour',
-        'user_day': '2000/day',
-    },
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser',
-    ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
-}
-
-AUTHENTICATION_BACKENDS = (
-    # Google OAuth2
-    'social_core.backends.google.GoogleOAuth2',
-    # Facebook OAuth2
-    'social_core.backends.facebook.FacebookAppOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
-    # django-rest-framework-social-oauth2
-    'rest_framework_social_oauth2.backends.DjangoOAuth2',
-    # Django
-    'django.contrib.auth.backends.ModelBackend',
-    'oauth2_provider.backends.OAuth2Backend',
-
-)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-
-SWAGGER_SETTINGS = {
-    'JSON_EDITOR': True,
-    'SECURITY_DEFINITIONS': {
-        'Bearer': {
-            'type': 'apiKey',
-            'name': 'Authorization',
-            'in': 'header'
-        }
-    }
-}
-
-LOG_VIEWER_FILES = ['auth.log', 'home.log', 'default.log', ]
-LOG_VIEWER_FILES_PATTERN = '*'
-LOG_VIEWER_FILES_DIR = os.path.join(BASE_DIR, 'logs')
-LOG_VIEWER_MAX_READ_LINES = 1000  # total log lines will be read
-LOG_VIEWER_PAGE_LENGTH = 25  # total log lines per-page
-LOG_VIEWER_PATTERNS = ['[INFO]', '[DEBUG]', '[WARNING]', '[ERROR]', '[CRITICAL]']
-# Optionally you can set the next variables in order to customize the admin:
-
-LOG_VIEWER_FILE_LIST_TITLE = "logging"
-LOG_VIEWER_FILE_LIST_STYLES = "/static/css/logs.css"
-LOGGING_ROOT = os.path.join(BASE_DIR, 'logs')
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'level': 'INFO',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'standard'
-        },
-        'home': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_ROOT, 'home.log'),
-            'maxBytes': 1024 * 1024 * 15,  # 5MB
-            'backupCount': 0,
-            'formatter': 'standard',
-        },
-        'auth': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_ROOT, 'auth.log'),
-            'maxBytes': 1024 * 1024 * 15,  # 5MB
-            'backupCount': 0,
-            'formatter': 'standard',
-        },
-        'default': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_ROOT, 'default.log'),
-            'maxBytes': 1024 * 1024 * 15,  # 5MB
-            'backupCount': 0,
-            'formatter': 'standard',
-        },
-        'request_handler': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGGING_ROOT, 'request.log'),
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-            'formatter': 'standard',
-        },
-
-    },
-    'formatters': {
-        'standard': {
-            'format': "[%(levelname)s] [%(asctime)s] [%(name)s:%(lineno)s] %(message)s\n",
-            'datefmt': "%d/%b/%Y %H:%M:%S"
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['console', 'default'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'home': {
-            'handlers': ['console', 'home'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        'auth': {
-            'handlers': ['console', 'auth'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        'django.request': {
-            'handlers': ['request_handler'],
-            'level': 'DEBUG',
-            'propagate': False
-        },
-    }
-}
-
-# jazzmin configurations https://jet.readthedocs.io/en/latest/getting_started.html
-
+# AUTHENTICATION_BACKENDS = (
+#     # Google OAuth2
+#     'social_core.backends.google.GoogleOAuth2',
+#     # Facebook OAuth2
+#     'social_core.backends.facebook.FacebookAppOAuth2',
+#     'social_core.backends.facebook.FacebookOAuth2',
+#     # django-rest-framework-social-oauth2
+#     'rest_framework_social_oauth2.backends.DjangoOAuth2',
+#     # Django
+#     'django.contrib.auth.backends.ModelBackend',
+#     'oauth2_provider.backends.OAuth2Backend',
+#
+# )
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)
     "site_title": application_name,
@@ -384,33 +186,12 @@ JAZZMIN_SETTINGS = {
     # Top Menu #
     ############
 
-    # Links to put along the top menu
-    "topmenu_links": [
-
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
-
-        # external url that opens in a new window (Permissions can be added)
-        # model admin to link to (Permissions checked against model)
-        {"model": "auth.User"},
-        {"name": "logs", "url": f"/{ADMIN_URL}log_viewer/"},
-        {"name": "requests", "url": f"/{ADMIN_URL}request-viewer/"},
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"app": "home"},
-    ],
 
     #############
     # User Menu #
     #############
 
     # # Additional links to include in the user menu on the top right ("app" url type is not allowed)
-    "usermenu_links": [
-        {"name": "logs", "url": f"/{ADMIN_URL}log_viewer/",
-         "icon": "fas fa-comments", },
-        {"name": "requests", "url": f"/{ADMIN_URL}request-viewer/",
-         "icon": "fas fa-comments", },
-        {"model": "auth.user"}
-    ],
 
     #############
     # Side Menu #
@@ -485,9 +266,4 @@ JAZZMIN_SETTINGS = {
 
 JAZZMIN_UI_TWEAKS = {
     "theme": "solar",
-}
-
-REQUEST_VIEWER = {
-    "LIVE_MONITORING": True,
-    "WHITELISTED_PATH": [ADMIN_URL, 'auth/', 'login/', 'google-login/', 'signup/']
 }
